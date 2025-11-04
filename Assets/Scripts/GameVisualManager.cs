@@ -15,13 +15,24 @@ public class GameVisualManager : NetworkBehaviour
 
     private void GameManager_OnClickedOnGridPosition(object sender, GameManager.OnClickedOnGridPositionEventArgs e)
     {
-        SpawnTileObjectRpc(e.x, e.y);
+        SpawnTileObjectRpc(e.x, e.y, e.playerType);
     }
 
     [Rpc(SendTo.Server)]
-    private void SpawnTileObjectRpc(int x, int y)
+    private void SpawnTileObjectRpc(int x, int y, GameManager.PlayerType playerType)
     {
-        Transform SpawnedObject = Instantiate(CircleTile, GetGridWorldPositions(x, y), Quaternion.identity);
+        Transform player;
+        switch (playerType)
+        {
+            default:
+            case GameManager.PlayerType.Cross:
+                player = CrossTile;
+                break;
+            case GameManager.PlayerType.Circle:
+                player = CircleTile;
+                break;
+        }        
+        Transform SpawnedObject = Instantiate(player, GetGridWorldPositions(x, y), Quaternion.identity);
         SpawnedObject.GetComponent<NetworkObject>().Spawn(true);
         SpawnedObject.position = GetGridWorldPositions(x, y);
     }

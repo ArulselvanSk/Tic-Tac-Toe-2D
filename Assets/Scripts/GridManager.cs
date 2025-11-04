@@ -8,6 +8,6 @@ public class GridManager : MonoBehaviour
     private void OnMouseDown()
     {
         Debug.Log($"Click on the tile : ({x},{y})");
-        GameManager.Instance.OnGridSelectedHandler(x, y);
+        GameManager.Instance.OnGridSelectedHandlerRpc(x, y, GameManager.Instance.GetPlayerType());
     }
 }
