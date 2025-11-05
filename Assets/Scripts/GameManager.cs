@@ -23,9 +23,14 @@ public class GameManager : NetworkBehaviour
     }
 
     private PlayerType LocalPlayerType;
-    private PlayerType CurrentPlayablePlayerType;
+    private NetworkVariable<PlayerType> CurrentPlayablePlayerType = new();
 
     public event EventHandler<OnClickedOnGridPositionEventArgs> OnClickedOnGridPosition;
+
+    public event EventHandler OnGameStarted;
+
+    public event EventHandler OnCurrentPlayerChanged;
+
     public class OnClickedOnGridPositionEventArgs : EventArgs
     {
         public int x;
@@ -47,31 +52,56 @@ public class GameManager : NetworkBehaviour
 
         if(IsServer)
         {
-            CurrentPlayablePlayerType = PlayerType.Circle;
+            NetworkManager.Singleton.OnClientConnectedCallback += NetworkManager_OnClientConnectedCallback; 
         }
+
+        CurrentPlayablePlayerType.OnValueChanged += (PlayerType oldPlayerType, PlayerType newPlayerType) =>
+        {
+            OnCurrentPlayerChanged?.Invoke(this, EventArgs.Empty);
+        };
+    }
+
+    private void NetworkManager_OnClientConnectedCallback(ulong obj)
+    {
+        if(NetworkManager.Singleton.ConnectedClientsList.Count == 2)
+        {
+            CurrentPlayablePlayerType.Value = PlayerType.Circle;
+            //Game Start
+            TriggerOnGameStartedRpc();
+        }
+    }
+
+    [Rpc(SendTo.ClientsAndHost)]
+    private void TriggerOnGameStartedRpc()
+    {
+        OnGameStarted?.Invoke(this, EventArgs.Empty);
     }
 
     public PlayerType GetPlayerType()
     {
         return LocalPlayerType;
     }
+    public PlayerType GetCurrentPlayablePlayerType()
+    {
+        return CurrentPlayablePlayerType.Value;
+    }
 
     [Rpc(SendTo.Server)]
     public void OnGridSelectedHandlerRpc(int x, int y, PlayerType playerType)
     {
-        if (CurrentPlayablePlayerType != playerType)
+        if (CurrentPlayablePlayerType.Value != playerType)
         {
             return;
         }
         Debug.Log($"Grid axis ({ x},{ y})");
         OnClickedOnGridPosition?.Invoke(this, new OnClickedOnGridPositionEventArgs { x = x , y = y , playerType = playerType});
-        switch (CurrentPlayablePlayerType){
+        switch (CurrentPlayablePlayerType.Value){
             default:
             case PlayerType.Circle:
-                CurrentPlayablePlayerType = PlayerType.Cross;
+                CurrentPlayablePlayerType.Value = PlayerType.Cross;
                 break;
             case PlayerType.Cross:
-                CurrentPlayablePlayerType = PlayerType.Circle;
+                CurrentPlayablePlayerType.Value = PlayerType.Circle;
                 break;
         }
     }

@@ -14,11 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentVersion: 1.00
   subtype: tictactoengofree
-  lastShownTimestamp: 1762237591
+  lastShownTimestamp: 1762343127
   lastUpdateResponse:
     version: 1.00
     versionUrl: https://unitycodemonkey.com
-  checkedLastUpdateTimestamp: 1762237591
+  checkedLastUpdateTimestamp: 1762343127
   lastQOTDResponse:
     questionId: 238
     questionText: Where is the modulo % operator particularly useful?
@@ -27,26 +27,26 @@ MonoBehaviour:
     answerC: Creating a new list with size
     answerD: 
     answerE: 
-  lastQotdTimestamp: 1762237591
+  lastQotdTimestamp: 1762343127
   lastDynamicHeaderResponse:
     topImageUrl: https://codemonkeyexternal.blob.core.windows.net/external/Misc/gameDevReport_2.png
     topText: Stay up to date with the latest in Game Dev straight to your inbox!
     topLink: gamedevreport
     bottomText: My 10+ Years of C# Knowledge in 1 Course!
     bottomLink: csharpcourse
-  lastDynamicHeaderTimestamp: 1762237591
+  lastDynamicHeaderTimestamp: 1762343127
   websiteLatestMessage:
     text: <a href="https://cmonkey.co/freecourses">Check out all my FREE courses!
       Click here!</a>
-  websiteLatestMessageTimestamp: 1762237591
+  websiteLatestMessageTimestamp: 1762343127
   websiteLatestVideos:
     videos:
+    - youTubeId: mtNIuwGDYUc
+      title: Do GAMERS Like Pixel Art?
     - youTubeId: SFVSgORBgOg
       title: How do you REFACTOR code? (EXTREMELY Important!)
     - youTubeId: g8RbZ8ymWas
       title: 7 SPOOKY Game Dev MYTHs that aren't REAL!
     - youTubeId: UGhId8Zd3eM
       title: BEST NEW Visual Assets to INSPIRE YOU! (OCTOBER 2025)
-    - youTubeId: qX5m_EH4Wbo
-      title: How to FAIL with 100k WISHLISTS!
-  websiteLatestVideosTimestamp: 1762237591
+  websiteLatestVideosTimestamp: 1762343127
