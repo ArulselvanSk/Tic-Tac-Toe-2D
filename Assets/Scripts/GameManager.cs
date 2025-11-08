@@ -13,6 +13,8 @@ public class GameManager : NetworkBehaviour
             Debug.LogError("Multiple Instance GameManager Found");
         }
         Instance = this;
+
+        PlayerTypeArray = new PlayerType[3, 3];
     }
 
     public enum PlayerType
@@ -24,6 +26,8 @@ public class GameManager : NetworkBehaviour
 
     private PlayerType LocalPlayerType;
     private NetworkVariable<PlayerType> CurrentPlayablePlayerType = new();
+
+    private PlayerType[,] PlayerTypeArray;
 
     public event EventHandler<OnClickedOnGridPositionEventArgs> OnClickedOnGridPosition;
 
@@ -93,6 +97,11 @@ public class GameManager : NetworkBehaviour
         {
             return;
         }
+        if (PlayerTypeArray[x,y] != PlayerType.none)
+        {
+            return;
+        }
+        PlayerTypeArray[x, y] = playerType;
         Debug.Log($"Grid axis ({ x},{ y})");
         OnClickedOnGridPosition?.Invoke(this, new OnClickedOnGridPositionEventArgs { x = x , y = y , playerType = playerType});
         switch (CurrentPlayablePlayerType.Value){
